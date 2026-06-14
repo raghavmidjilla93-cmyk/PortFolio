@@ -1,0 +1,186 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   CinematicDivider.module.css
+   Full-bleed parallax section — cinematic fire walking photo
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  min-height: 500px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Parallax image ───────────────────────────────────────────────────────── */
+.imgWrap {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  pointer-events: none;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  will-change: transform;
+  transition: transform 0.05s linear;
+  transform: scale(1.12);
+}
+
+/* ── Gradient overlays ────────────────────────────────────────────────────── */
+.overlayTop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #060606 0%,
+    rgba(0, 0, 0, 0.55) 25%,
+    transparent 55%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.overlayBottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    #060606 0%,
+    rgba(0, 0, 0, 0.55) 25%,
+    transparent 55%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.overlayCenter {
+  position: absolute;
+  inset: 0;
+  /* Dark vignette pulling focus to center-left where figure stands */
+  background: radial-gradient(
+    ellipse 70% 80% at 65% 50%,
+    transparent 30%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Content ──────────────────────────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  width: 100%;
+  padding: 0 clamp(24px, 6vw, 80px);
+  text-align: center;
+}
+
+/* Horizontal accent line */
+.line {
+  width: min(480px, 80vw);
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 140, 58, 0.5) 50%,
+    transparent
+  );
+  transform-origin: center;
+  /* GSAP animates scaleX from 0 */
+  transform: scaleX(0);
+}
+
+/* Main quote */
+.quote {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(20px, 3.5vw, 42px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0;
+  opacity: 0;
+  will-change: transform, opacity, letter-spacing;
+  /* Subtle warm text-shadow like the fire behind him */
+  text-shadow: 0 0 60px rgba(255, 140, 58, 0.3);
+  line-height: 1.2;
+}
+
+/* ── Pills row ────────────────────────────────────────────────────────────── */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 22px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 140, 58, 0.22);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  opacity: 0;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.25s ease;
+  cursor: default;
+}
+
+.pill:hover {
+  border-color: rgba(255, 140, 58, 0.55);
+  background: rgba(255, 140, 58, 0.08);
+  transform: translateY(-3px);
+}
+
+.pillTitle {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ff8c3a;
+}
+
+.pillSub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.36);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .section {
+    height: 70vh;
+  }
+
+  .pills {
+    gap: 8px;
+  }
+
+  .pill {
+    padding: 10px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img    { transition: none; transform: none; }
+  .quote  { opacity: 1; }
+  .pill   { opacity: 1; }
+  .line   { transform: scaleX(1); }
+}

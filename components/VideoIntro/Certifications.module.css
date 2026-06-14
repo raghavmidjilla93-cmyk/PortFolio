@@ -1,0 +1,210 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Certifications.module.css
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  background: #080808;
+  padding: clamp(80px, 12vh, 130px) 0;
+  overflow: hidden;
+}
+
+.glow {
+  position: absolute;
+  bottom: 0;
+  left: 30%;
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(255, 140, 58, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 6vw, 80px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 8vh, 72px);
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.sectionLabel {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ff8c3a;
+  opacity: 0;
+}
+
+.sectionHeading {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(30px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 8px 0 0;
+  line-height: 1.1;
+  opacity: 0;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #ff8c3a, #ffcc80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Cert grid ────────────────────────────────────────────────────────────── */
+.certGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.certCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.25s ease;
+  opacity: 0;
+  cursor: default;
+}
+
+.certCard:hover {
+  border-color: rgba(255, 140, 58, 0.25);
+  background: rgba(255, 140, 58, 0.04);
+  transform: translateY(-4px);
+}
+
+.certIcon {
+  font-size: 22px;
+  color: #ff8c3a;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.certTitle {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(14px, 1.3vw, 16px);
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.certBody {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.32);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Divider ──────────────────────────────────────────────────────────────── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.07) 20%,
+    rgba(255, 255, 255, 0.07) 80%,
+    transparent
+  );
+}
+
+/* ── Education grid ───────────────────────────────────────────────────────── */
+.eduGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.eduCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 28px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color 0.3s ease, background 0.3s ease;
+  opacity: 0;
+}
+
+.eduCard:hover {
+  border-color: rgba(255, 140, 58, 0.18);
+  background: rgba(255, 140, 58, 0.03);
+}
+
+.eduPeriod {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #ff8c3a;
+}
+
+.eduDegree {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(15px, 1.5vw, 19px);
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.eduSchool {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.eduLocation {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.25);
+  margin: 0;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .certGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .eduGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .certCard, .eduCard,
+  .sectionLabel, .sectionHeading { opacity: 1; transform: none; }
+}

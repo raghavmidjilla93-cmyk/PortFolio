@@ -1,0 +1,280 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Experience.module.css — cinematic career timeline
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  background: #060606;
+  padding: clamp(80px, 12vh, 140px) 0;
+  overflow: hidden;
+}
+
+.glow {
+  position: absolute;
+  top: 20%;
+  right: -5%;
+  width: 500px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 140, 58, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+.inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 6vw, 80px);
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.headerRow {
+  margin-bottom: clamp(48px, 8vh, 72px);
+}
+
+.sectionLabel {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ff8c3a;
+  margin-bottom: 16px;
+  opacity: 0;
+}
+
+.sectionHeading {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(32px, 4.5vw, 60px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.05;
+  opacity: 0;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #ff8c3a, #ffcc80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Timeline ─────────────────────────────────────────────────────────────── */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-left: 32px;
+}
+
+.timelineLine {
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    #ff8c3a 0%,
+    rgba(255, 140, 58, 0.3) 40%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+}
+
+/* ── Job entry ────────────────────────────────────────────────────────────── */
+.job {
+  position: relative;
+  padding-bottom: clamp(40px, 6vh, 64px);
+  opacity: 0;
+}
+
+.job:last-child {
+  padding-bottom: 0;
+}
+
+/* Timeline dot */
+.dot {
+  position: absolute;
+  left: -32px;
+  top: 6px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  border: 2px solid rgba(255, 140, 58, 0.35);
+  z-index: 1;
+}
+
+.jobCurrent .dot {
+  background: #ff8c3a;
+  border-color: #ff8c3a;
+  box-shadow: 0 0 12px rgba(255, 140, 58, 0.5);
+}
+
+.dotPulse {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 140, 58, 0.4);
+  animation: ripple 2s ease-out infinite;
+}
+
+@keyframes ripple {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+/* ── Job card ─────────────────────────────────────────────────────────────── */
+.jobCard {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.jobCurrent .jobCard {
+  border-color: rgba(255, 140, 58, 0.18);
+  background: rgba(255, 140, 58, 0.03);
+}
+
+.jobCard:hover {
+  border-color: rgba(255, 140, 58, 0.22);
+  background: rgba(255, 140, 58, 0.04);
+}
+
+.jobHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.jobMeta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.jobPeriod {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #ff8c3a;
+}
+
+.jobLocation {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.jobRole {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(17px, 1.8vw, 22px);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  margin: 0 0 4px;
+}
+
+.jobCompany {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.42);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ── Highlights ───────────────────────────────────────────────────────────── */
+.highlights {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Note: .highlight is reused — scoped correctly since it's a module */
+.highlights .highlight {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(13px, 1.2vw, 14.5px);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.48);
+  line-height: 1.7;
+  padding-left: 16px;
+  position: relative;
+  /* override gradient from heading .highlight */
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.48);
+  background-clip: unset;
+}
+
+.highlights .highlight::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: rgba(255, 140, 58, 0.6);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ── Tags ─────────────────────────────────────────────────────────────────── */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 100px;
+  padding: 4px 12px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.tag:hover {
+  color: #ff8c3a;
+  border-color: rgba(255, 140, 58, 0.3);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .timeline {
+    padding-left: 24px;
+  }
+
+  .dot {
+    left: -24px;
+    width: 11px;
+    height: 11px;
+  }
+
+  .jobCard {
+    padding: 20px 18px;
+  }
+
+  .jobMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dotPulse   { animation: none; }
+  .sectionLabel,
+  .sectionHeading,
+  .job        { opacity: 1; transform: none; }
+}

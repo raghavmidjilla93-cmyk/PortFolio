@@ -1,0 +1,189 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   SkillsMap.module.css — skills infographic section
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  background: #060606;
+  padding: clamp(80px, 12vh, 140px) 0;
+  overflow: hidden;
+}
+
+/* ── Ambient glows ────────────────────────────────────────────────────────── */
+.glowLeft {
+  position: absolute;
+  top: 10%;
+  left: -5%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(255, 140, 58, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+.glowRight {
+  position: absolute;
+  bottom: 10%;
+  right: -5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(110, 181, 255, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+/* ── Inner ────────────────────────────────────────────────────────────────── */
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 6vw, 80px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 6vh, 64px);
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ff8c3a;
+  opacity: 0;
+}
+
+.heading {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(30px, 4.5vw, 60px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0;
+  opacity: 0;
+}
+
+.accent {
+  background: linear-gradient(135deg, #ff8c3a, #ffcc80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Image frame ──────────────────────────────────────────────────────────── */
+.frame {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 140, 58, 0.14);
+  background: rgba(255, 255, 255, 0.02);
+  opacity: 0;
+  will-change: transform, opacity;
+  /* Subtle shadow glow */
+  box-shadow:
+    0 0 0 1px rgba(255, 140, 58, 0.06),
+    0 24px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(255, 140, 58, 0.06);
+}
+
+.mapImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Slightly darken the image so it reads as a dark-themed element */
+  filter: brightness(0.88) contrast(1.05) saturate(0.9);
+  transition: filter 0.4s ease;
+}
+
+.frame:hover .mapImg {
+  filter: brightness(0.95) contrast(1.05) saturate(1);
+}
+
+/* Bottom fade so the image blends into the section background */
+.fadeBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, #060606 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ── Corner accent lines ──────────────────────────────────────────────────── */
+.corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cornerTL {
+  top: -1px; left: -1px;
+  border-top: 2px solid #ff8c3a;
+  border-left: 2px solid #ff8c3a;
+  border-top-left-radius: 4px;
+}
+.cornerTR {
+  top: -1px; right: -1px;
+  border-top: 2px solid #ff8c3a;
+  border-right: 2px solid #ff8c3a;
+  border-top-right-radius: 4px;
+}
+.cornerBL {
+  bottom: -1px; left: -1px;
+  border-bottom: 2px solid #ff8c3a;
+  border-left: 2px solid #ff8c3a;
+  border-bottom-left-radius: 4px;
+}
+.cornerBR {
+  bottom: -1px; right: -1px;
+  border-bottom: 2px solid #ff8c3a;
+  border-right: 2px solid #ff8c3a;
+  border-bottom-right-radius: 4px;
+}
+
+/* ── Tag cloud ────────────────────────────────────────────────────────────── */
+.tagCloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tagItem {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 100px;
+  padding: 6px 16px;
+  opacity: 0;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+  cursor: default;
+}
+
+.tagItem:hover {
+  color: #ff8c3a;
+  border-color: rgba(255, 140, 58, 0.35);
+  background: rgba(255, 140, 58, 0.06);
+  transform: translateY(-2px);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .corner { width: 16px; height: 16px; }
+  .tagItem { font-size: 11px; padding: 5px 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .label, .heading, .frame, .tagItem { opacity: 1; transform: none; }
+  .mapImg { transition: none; }
+}

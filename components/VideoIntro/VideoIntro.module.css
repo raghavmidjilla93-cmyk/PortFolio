@@ -1,0 +1,441 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   VideoIntro.module.css
+   Cinematic portfolio hero — dark warm aesthetic, premium motion
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Design tokens ────────────────────────────────────────────────────────── */
+:root {
+  --orange:      #ff8c3a;
+  --orange-dim:  rgba(255, 140, 58, 0.18);
+  --white:       #ffffff;
+  --cream:       #ffe8cc;
+  --glass-bg:    rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-blur:  12px;
+  --font-display: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ── Section shell ────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;          /* safe-area aware on mobile */
+  min-height: 600px;
+  overflow: hidden;
+  background: #080808;     /* fallback while video loads */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Background (blurred ambient) video ──────────────────────────────────── */
+.bgVideo {
+  position: absolute;
+  inset: -8%;              /* overshoot so blur edge never shows */
+  width: 116%;
+  height: 116%;
+  object-fit: cover;
+  filter: blur(32px) brightness(0.35) saturate(1.4);
+  transform: scale(1.05);  /* hides blur fringe at edges */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Gradient overlays ────────────────────────────────────────────────────── */
+.gradientTop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.08) 30%,
+    transparent 55%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gradientBottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.20) 35%,
+    transparent 60%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gradientLeft {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.70) 0%,
+    rgba(0, 0, 0, 0.18) 28%,
+    transparent 50%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gradientRight {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.60) 0%,
+    rgba(0, 0, 0, 0.12) 28%,
+    transparent 50%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Radial vignette ring — adds cinematic "frame" feel */
+.vignetteRing {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 90% 90% at 50% 50%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── Foreground video ─────────────────────────────────────────────────────── */
+.videoWrapper {
+  position: absolute;
+  /* Center the figure; shift it slightly right to leave room for left-side text */
+  right: 6%;
+  bottom: 0;
+  width: min(52vw, 560px);
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 4;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  pointer-events: none;
+}
+
+.videoVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mainVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  /* Feather bottom so the figure appears to emerge from darkness */
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, black 18%);
+  mask-image:         linear-gradient(to top, transparent 0%, black 18%);
+}
+
+/* Warm radial glow beneath the figure */
+.videoGlow {
+  position: absolute;
+  bottom: -4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 40%;
+  background: radial-gradient(ellipse, rgba(255, 140, 58, 0.22) 0%, transparent 70%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Content overlay ──────────────────────────────────────────────────────── */
+.content {
+  position: absolute;
+  left: clamp(24px, 6vw, 80px);
+  bottom: clamp(100px, 16vh, 180px);
+  z-index: 5;
+  max-width: min(780px, 58vw);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Tagline */
+.tagline {
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.1vw, 13px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  /* GSAP animates from autoAlpha 0 */
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Name block */
+.nameBlock {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 0.92;
+  gap: 0;
+}
+
+.firstName,
+.lastName {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(42px, 6vw, 96px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--white);
+  /* Subtle warm gradient on the letters */
+  background: linear-gradient(135deg, #ffffff 50%, #ffe0bb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.lastName {
+  /* Indent the last name for typographic rhythm */
+  padding-left: clamp(4px, 0.6vw, 12px);
+  color: var(--cream);
+  background: linear-gradient(135deg, #ffe8cc 30%, #ff8c3a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Role / subtitle */
+.roleLine {
+  font-family: var(--font-display);
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.02em;
+  margin: 12px 0 0;
+  max-width: 480px;
+  line-height: 1.6;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* ── Glassmorphism controls ───────────────────────────────────────────────── */
+.controls {
+  position: absolute;
+  bottom: clamp(32px, 5vh, 56px);
+  right: clamp(24px, 4vw, 48px);
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.controlBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  color: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease;
+  outline: none;
+}
+
+.controlBtn:hover {
+  background: rgba(255, 140, 58, 0.18);
+  border-color: rgba(255, 140, 58, 0.5);
+  color: var(--orange);
+  transform: scale(1.08);
+}
+
+.controlBtn:active {
+  transform: scale(0.96);
+}
+
+.controlBtn:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+/* ── Sound hint badge ─────────────────────────────────────────────────────── */
+.soundHint {
+  position: absolute;
+  top: clamp(20px, 4vh, 36px);
+  right: clamp(24px, 4vw, 48px);
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: opacity 0.6s ease, background 0.25s ease;
+  animation: fadeInDown 0.6s ease both;
+}
+
+.soundHint:hover {
+  background: rgba(255, 140, 58, 0.12);
+  color: var(--orange);
+}
+
+/* Animated pulse dot */
+.soundPulse {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.4; transform: scale(1.45); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+/* ── Scroll indicator ─────────────────────────────────────────────────────── */
+.scrollIndicator {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 40px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.38);
+  transition: color 0.25s ease;
+  opacity: 0;
+  will-change: opacity;
+  padding: 8px;
+}
+
+.scrollIndicator:hover {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.scrollLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Animated vertical pulse line */
+.scrollLine {
+  display: block;
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.6) 0%,
+    transparent 100%
+  );
+  animation: scrollPulse 1.8s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@keyframes scrollPulse {
+  0%   { transform: scaleY(0); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .content {
+    left: 20px;
+    right: 20px;
+    bottom: clamp(80px, 12vh, 130px);
+    max-width: 100%;
+  }
+
+  .videoWrapper {
+    right: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0.45;   /* desaturate on small screens so text stays readable */
+  }
+
+  .firstName,
+  .lastName {
+    font-size: clamp(44px, 12vw, 72px);
+  }
+
+  .controls {
+    flex-direction: row;
+    bottom: clamp(20px, 4vh, 36px);
+    right: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bgVideo {
+    filter: blur(20px) brightness(0.28) saturate(1.2);
+  }
+
+  .tagline {
+    font-size: 10px;
+  }
+
+  .firstName,
+  .lastName {
+    font-size: clamp(38px, 13vw, 56px);
+  }
+
+  .roleLine {
+    font-size: 12px;
+  }
+}
+
+/* ── Reduced-motion accessibility ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .scrollLine     { animation: none; opacity: 0.5; transform: none; }
+  .soundPulse     { animation: none; }
+  .soundHint      { animation: none; }
+  .videoVisible   { transition: none; }
+  .mainVideo,
+  .bgVideo        { animation: none; }
+}
