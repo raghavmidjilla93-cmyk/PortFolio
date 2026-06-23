@@ -69,12 +69,40 @@ export default function VideoIntro({
   const [playing,       setPlaying]       = useState(true);
   const [showSoundHint, setShowSoundHint] = useState(true);
   const [loaded,        setLoaded]        = useState(false);
+  const playingRef = useRef(true); // mirrors playing state, safe inside observers
 
   // ── Auto-hide sound hint ─────────────────────────────────────────────────
   useEffect(() => {
     const id = setTimeout(() => setShowSoundHint(false), 5000);
     return () => clearTimeout(id);
   }, []);
+
+  // ── Pause video when scrolled out of view, resume when back ─────────────
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const main = mainVideoRef.current;
+        const bg   = bgVideoRef.current;
+        if (!main) return;
+
+        if (entries[0].isIntersecting) {
+          // Back in view — only resume if user hadn't manually paused
+          if (main.paused && playingRef.current) {
+            main.play().catch(() => {});
+            bg?.play().catch(() => {});
+          }
+        } else {
+          // Scrolled away — always pause
+          main.pause();
+          bg?.pause();
+        }
+      },
+      { threshold: 0.1 } // pause when 90% of the section is off-screen
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []); // no dependency on playing — uses ref instead
 
   // ── GSAP entrance animation ──────────────────────────────────────────────
   useEffect(() => {
@@ -154,10 +182,12 @@ export default function VideoIntro({
       v.play();
       bgVideoRef.current?.play();
       setPlaying(true);
+      playingRef.current = true;
     } else {
       v.pause();
       bgVideoRef.current?.pause();
       setPlaying(false);
+      playingRef.current = false;
     }
   }, []);
 
